@@ -41,6 +41,7 @@
             border: none;
             cursor: pointer;
             transition: transform 0.25s ease;
+            position: relative; /* so No starts in place */
         }
 
         #yes {
@@ -51,7 +52,6 @@
         #no {
             background-color: #ccc;
             margin-left: 20px;
-            position: relative; /* start static beside Yes */
         }
 
         .heart {
@@ -73,7 +73,7 @@
 <body>
 
 <div class="box">
-    <h1>Hi Jheel Babyy❤️</h1>
+    <h1>Hie <span id="name">Jheel Babyy</span> 💖</h1>
     <h2>Will you be my Valentine?</h2>
     <button id="yes">Yes 💘</button>
     <button id="no">No 🙃</button>
@@ -83,20 +83,17 @@
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 
-let dodgeDistance = 80; // starting distance for No
-
-// Move No only on hover / touch
-function moveNoButton() {
-    dodgeDistance += 15; // increases slightly each hover
-    const x = Math.random() * dodgeDistance - dodgeDistance / 2;
-    const y = Math.random() * dodgeDistance - dodgeDistance / 2;
+// Simple playful No button (like first draft)
+function moveNo() {
+    const x = Math.random() * 300 - 150;
+    const y = Math.random() * 200 - 100;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 }
 
 // Desktop hover
-noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("mouseover", moveNo);
 // Mobile tap
-noBtn.addEventListener("touchstart", moveNoButton);
+noBtn.addEventListener("touchstart", moveNo);
 
 // YES click → confetti + redirect
 yesBtn.addEventListener("click", () => {
