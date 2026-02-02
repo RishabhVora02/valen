@@ -7,9 +7,8 @@
         body {
             margin: 0;
             height: 100vh;
-            background-image: url('bg.jpg');
+            background: url('bg.jpg') no-repeat center center;
             background-size: cover;
-            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,22 +17,16 @@
         }
 
         .box {
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255,255,255,0.9);
             padding: 40px;
             border-radius: 25px;
             text-align: center;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             z-index: 2;
         }
 
-        h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        h2 {
-            margin-bottom: 30px;
-        }
+        h1 { font-size: 32px; margin-bottom: 10px; }
+        h2 { margin-bottom: 30px; }
 
         button {
             font-size: 18px;
@@ -41,94 +34,77 @@
             border-radius: 12px;
             border: none;
             cursor: pointer;
-            position: relative;
         }
 
-        #yes {
-            background-color: #ff4d6d;
-            color: white;
-        }
+        #yes { background-color: #ff4d6d; color: white; }
+        #no  { background-color: #ccc; margin-left: 20px; }
 
-        #no {
-            background-color: #ccc;
-            margin-left: 20px;
-        }
-
-        /* Floating hearts */
         .heart {
             position: absolute;
-            bottom: -20px;
-            color: pink;
-            font-size: 20px;
-            animation: floatUp 6s linear infinite;
-            opacity: 0.7;
+            bottom: 0;
+            font-size: 22px;
+            animation: rise 6s linear forwards;
         }
 
-        @keyframes floatUp {
-            from {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateY(-110vh);
-                opacity: 0;
-            }
+        @keyframes rise {
+            from { transform: translateY(0); opacity: 1; }
+            to   { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff4d6d;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Background Music -->
-    <audio autoplay loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
 
-    <div class="box">
-        <h1>Hie19:48 02-02-2026 <span id="name">Jheel Baby</span> 💖</h1>
-        <h2>Will you be my Valentine?</h2>
+<div class="music-btn" onclick="playMusic()">🎵 Play music</div>
 
-        <button id="yes" onclick="yesClicked()">Yes 💘</button>
-        <button id="no" onmouseover="moveNo()">No 🙃</button>
-    </div>
+<div class="box">
+    <h1>Hi Jheel Baby 💖</h1>
+    <h2>Will you be my Valentine?</h2>
+    <button id="yes" onclick="yesClicked()">Yes 💘</button>
+    <button id="no" onmouseover="moveNo()">No 🙃</button>
+</div>
 
-    <script>
-        // NO button chaos
-        function moveNo() {
-            const noBtn = document.getElementById("no");
-            const x = Math.random() * 400 - 200;
-            const y = Math.random() * 300 - 150;
-            noBtn.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random()*20}deg)`;
-        }
+<script>
+function playMusic() {
+    document.getElementById("music").play();
+}
 
-        // YES click → confetti + redirect
-        function yesClicked() {
-            for (let i = 0; i < 80; i++) {
-                let conf = document.createElement("div");
-                conf.innerHTML = "🎉";
-                conf.style.position = "absolute";
-                conf.style.left = Math.random() * 100 + "vw";
-                conf.style.top = "-20px";
-                conf.style.fontSize = "20px";
-                conf.style.animation = "floatUp 2s linear";
-                document.body.appendChild(conf);
-            }
-            setTimeout(() => {
-                window.location.href = "yes.html";
-            }, 800);
-        }
+function moveNo() {
+    const noBtn = document.getElementById("no");
+    noBtn.style.transform =
+        `translate(${Math.random()*300-150}px, ${Math.random()*200-100}px)`;
+}
 
-        // Floating hearts generator
-        setInterval(() => {
-            let heart = document.createElement("div");
-            heart.className = "heart";
-            heart.innerHTML = "❤️";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.fontSize = Math.random() * 20 + 15 + "px";
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 6000);
-        }, 400);
-    </script>
+function yesClicked() {
+    for (let i = 0; i < 30; i++) {
+        let h = document.createElement("div");
+        h.className = "heart";
+        h.innerHTML = "❤️";
+        h.style.left = Math.random()*100 + "vw";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 6000);
+    }
+    setTimeout(() => {
+        window.location.href = "yes.html";
+    }, 700);
+}
+</script>
 
 </body>
 </html>
