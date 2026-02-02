@@ -2,23 +2,28 @@
 <html>
 <head>
     <title>Valentine?</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #ffe6eb;
-            text-align: center;
-            height: 100vh;
             margin: 0;
+            height: 100vh;
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
         }
 
         .box {
-            background: white;
+            background: rgba(255, 255, 255, 0.88);
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            z-index: 2;
         }
 
         h1 {
@@ -32,8 +37,8 @@
 
         button {
             font-size: 18px;
-            padding: 12px 25px;
-            border-radius: 10px;
+            padding: 12px 28px;
+            border-radius: 12px;
             border: none;
             cursor: pointer;
             position: relative;
@@ -48,12 +53,39 @@
             background-color: #ccc;
             margin-left: 20px;
         }
+
+        /* Floating hearts */
+        .heart {
+            position: absolute;
+            bottom: -20px;
+            color: pink;
+            font-size: 20px;
+            animation: floatUp 6s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
 <body>
+
+    <!-- Background Music -->
+    <audio autoplay loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="box">
-        <h1>Hey <span id="name">Jheel</span> 💖</h1>
+        <h1>Hie19:48 02-02-2026 <span id="name">Jheel Baby</span> 💖</h1>
         <h2>Will you be my Valentine?</h2>
 
         <button id="yes" onclick="yesClicked()">Yes 💘</button>
@@ -61,16 +93,42 @@
     </div>
 
     <script>
+        // NO button chaos
         function moveNo() {
             const noBtn = document.getElementById("no");
-            const x = Math.random() * 300 - 150;
-            const y = Math.random() * 200 - 100;
-            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            const x = Math.random() * 400 - 200;
+            const y = Math.random() * 300 - 150;
+            noBtn.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random()*20}deg)`;
         }
 
+        // YES click → confetti + redirect
         function yesClicked() {
-            window.location.href = "yes.html";
+            for (let i = 0; i < 80; i++) {
+                let conf = document.createElement("div");
+                conf.innerHTML = "🎉";
+                conf.style.position = "absolute";
+                conf.style.left = Math.random() * 100 + "vw";
+                conf.style.top = "-20px";
+                conf.style.fontSize = "20px";
+                conf.style.animation = "floatUp 2s linear";
+                document.body.appendChild(conf);
+            }
+            setTimeout(() => {
+                window.location.href = "yes.html";
+            }, 800);
         }
+
+        // Floating hearts generator
+        setInterval(() => {
+            let heart = document.createElement("div");
+            heart.className = "heart";
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = Math.random() * 20 + 15 + "px";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }, 400);
     </script>
+
 </body>
 </html>
