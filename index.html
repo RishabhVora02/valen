@@ -34,7 +34,6 @@
             border-radius: 12px;
             border: none;
             cursor: pointer;
-            transition: transform 0.1s;
         }
 
         #yes {
@@ -45,7 +44,7 @@
         #no {
             background-color: #ccc;
             margin-left: 20px;
-            position: relative;
+            position: absolute;
         }
 
         .heart {
@@ -61,61 +60,42 @@
                 opacity: 0;
             }
         }
-
-        .music-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #ff4d6d;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            z-index: 20;
-        }
     </style>
 </head>
 
 <body>
 
-<audio id="music" loop>
+<audio id="music" loop preload="auto">
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<div class="music-btn" onclick="startMusic()">🎵 Tap for music</div>
-
 <div class="box">
-    <h1>Hi Jheel Baby💖</h1>
+    <h1>Hi Jheel Babyy❤️</h1>
     <h2>Will you be my Valentine?</h2>
-    <button id="yes" onclick="yesClicked()">Yes 💘</button>
-    <button id="no" onmouseover="angryNo()">No 🙃</button>
+    <button id="yes">Yes 💘</button>
+    <button id="no">No 🙃</button>
 </div>
 
 <script>
-let noAnger = 0;
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const music = document.getElementById("music");
 
-function startMusic() {
-    const music = document.getElementById("music");
+/* Playful No button (NORMAL, NOT AGGRESSIVE) */
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 120 - 60;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+/* YES click — MUSIC + CONFETTI + REDIRECT */
+yesBtn.addEventListener("click", () => {
+
+    // 🔊 MUSIC (guaranteed user gesture)
     music.volume = 0.6;
-    music.play();
-}
+    music.play().catch(() => {});
 
-function angryNo() {
-    const noBtn = document.getElementById("no");
-    noAnger++;
-
-    const x = Math.random() * 300 - 150;
-    const y = Math.random() * 200 - 100;
-    const rotate = (Math.random() * 30) - 15;
-
-    noBtn.style.transform =
-        `translate(${x}px, ${y}px) rotate(${rotate}deg) scale(${1 + noAnger * 0.05})`;
-}
-
-function yesClicked() {
-    startMusic(); // ensures music starts on interaction
-
+    // ❤️ CONFETTI FROM ALL SIDES
     for (let i = 0; i < 120; i++) {
         const heart = document.createElement("div");
         heart.className = "heart";
@@ -123,7 +103,6 @@ function yesClicked() {
 
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.top = Math.random() * 100 + "vh";
-
         heart.style.setProperty("--x", (Math.random() * 600 - 300) + "px");
         heart.style.setProperty("--y", (Math.random() * 600 - 300) + "px");
 
@@ -131,10 +110,11 @@ function yesClicked() {
         setTimeout(() => heart.remove(), 2500);
     }
 
+    // ⏩ REDIRECT
     setTimeout(() => {
         window.location.href = "yes.html";
-    }, 900);
-}
+    }, 1000);
+});
 </script>
 
 </body>
